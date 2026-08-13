@@ -24,11 +24,12 @@ export default function Home() {
       <section className="hero">
         <div className="hero-visual">
           <Image
-            src="/media/catalog/hero.webp"
-            alt="Zero-gravity massage chair in a bright wellness room"
-            width={1800}
-            height={1200}
+            src="/media/hero.jpg"
+            alt="Cedar sauna overlooking a forest — a personal wellness sanctuary"
+            fill
             priority
+            sizes="100vw"
+            quality={90}
           />
         </div>
         <div className="hero-copy">
