@@ -33,81 +33,73 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
   const collection = getCollection(product.collection);
   const related = getProductsByCollection(product.collection)
     .filter((p) => p.id !== product.id)
-    .slice(0, 4);
+    .slice(0, 3);
   const accessories = getProducts()
     .filter((p) => p.id !== product.id && p.price < 1000)
-    .slice(0, 4);
+    .slice(0, 3);
   const relatedPackages = packages.filter((pack) =>
     pack.productHandles.includes(product.handle),
   );
 
   return (
     <>
-      <article className="sanctuary-pdp">
-        <div className="pdp-stage">
+      <article className="pdp">
+        <div className="pdp-gallery">
           <ProductVisual product={product} priority />
         </div>
-
-        <div className="pdp-story">
-          <div className="pdp-narrative">
-            <p className="kicker">
-              {collection ? (
-                <Link href={`/departments/${collection.handle}`}>{collection.title}</Link>
+        <div className="spec-rail">
+          <p className="kicker">
+            {collection ? (
+              <Link href={`/departments/${collection.handle}`}>{collection.title}</Link>
+            ) : (
+              "Caldera"
+            )}
+          </p>
+          <h1>{product.title.replace("Caldera ", "")}</h1>
+          <p className="lede">{product.description}</p>
+          {product.quoteOnly ? (
+            <p className="price mt-4">Quote on request</p>
+          ) : (
+            <p className="mt-4">
+              <span className="price">{formatMoney(product.price)}</span>
+              {product.financing ? (
+                <span className="quiet-finance block">{monthlyLabel(product.monthly)} — illustrative</span>
               ) : (
-                "Caldera"
+                <span className="quiet-finance block">Flexible payment options available.</span>
               )}
             </p>
-            <h1>{product.title.replace("Caldera ", "")}</h1>
-            <p className="lede">{product.description}</p>
-            <p className="lede mt-4" style={{ color: "var(--mist)" }}>
-              {product.highlight}. Specified for a private wellness sanctuary — heat, cold, and recovery
-              routines without medical claims.
-            </p>
-            <ul className="spec-list">
-              {[
-                ["SKU", product.sku],
-                ["Type", product.equipmentType],
-                [
-                  "Use",
-                  product.useCase === "professional"
-                    ? "Commercial"
-                    : product.useCase === "home"
-                      ? "Home"
-                      : "Home & commercial",
-                ],
-                ["Power", product.power],
-                ["Dimensions", product.dimensions],
-                ["Weight", `${product.weightLbs} lb`],
-                ["Warranty", `${product.warrantyYears} year limited`],
-                ["Shipping", product.shipping],
-              ].map(([label, value]) => (
-                <li key={label}>
-                  <span>{label}</span>
-                  <strong>{value}</strong>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="pdp-buy">
-            {product.quoteOnly ? (
-              <p className="price">Quote on request</p>
-            ) : (
-              <p className="price">{formatMoney(product.price)}</p>
-            )}
-            {product.financing && !product.quoteOnly ? (
-              <p className="quiet-finance">{monthlyLabel(product.monthly)} — illustrative only</p>
-            ) : (
-              <p className="quiet-finance">Flexible payment options available.</p>
-            )}
-            <p className="mt-3 text-sm" style={{ color: "var(--stone)" }}>
-              {product.inStock ? "In stock" : "Built to order"} · {product.leadTime}
-            </p>
-            <AddToCartButton product={product} />
-            <p className="text-[0.75rem] mt-4" style={{ color: "var(--stone)" }}>
-              {financeDisclaimer()}
-            </p>
-          </div>
+          )}
+          <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
+            {product.inStock ? "In stock" : "Built to order"} · {product.leadTime}
+          </p>
+          <AddToCartButton product={product} />
+          <ul className="spec-list">
+            {[
+              ["SKU", product.sku],
+              ["Type", product.equipmentType],
+              [
+                "Use",
+                product.useCase === "professional"
+                  ? "Commercial"
+                  : product.useCase === "home"
+                    ? "Home"
+                    : "Home & commercial",
+              ],
+              ["Power", product.power],
+              ["Dimensions", product.dimensions],
+              ["Weight", `${product.weightLbs} lb`],
+              ["Warranty", `${product.warrantyYears} year limited`],
+              ["Shipping", product.shipping],
+            ].map(([label, value]) => (
+              <li key={label}>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </li>
+            ))}
+          </ul>
+          <p className="text-[0.75rem] mt-4" style={{ color: "var(--muted)" }}>
+            {financeDisclaimer()}
+          </p>
         </div>
       </article>
 
@@ -131,16 +123,10 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
       ) : null}
 
       <div className="prose-block">
-        <h2>Is this right for me?</h2>
-        <p>
-          This {product.equipmentType.toLowerCase()} is designed for{" "}
-          {product.intendedUsers.join(", ").toLowerCase()}. Typical rooms:{" "}
-          {product.businessTypes.join(", ")}. It is specified for wellness and recovery routines —
-          not as a medical device.
-        </p>
         <h2>Overview</h2>
         <p>
-          {product.description} {product.highlight}.
+          {product.description} {product.highlight}. Designed for wellness and recovery routines —
+          not as a medical device.
         </p>
         <h2>What’s included</h2>
         <ul>
@@ -152,8 +138,6 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
         <p>{product.installation}</p>
         <h2>Shipping</h2>
         <p>{product.shipping}</p>
-        <h2>Replacement parts</h2>
-        <p>{product.replacementParts}</p>
         <h2>Customer reviews</h2>
         <p>{product.reviewsPlaceholder}</p>
         <h2>FAQ</h2>

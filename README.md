@@ -1,8 +1,8 @@
 # Caldera
 
-Mineral wellness equipment house — volcanic spa retreat identity for cold plunges, saunas, massage, red light, and recovery rooms.
+Premium cold plunge, sauna, and recovery equipment storefront (Next.js + Shopify-ready).
 
-**Obsidian Spring** shell: magazine mast hero, crater monogram watermark, hot-spring dock journey (Shop → Goals → Equipment → Compare → Packages).
+**Visual reference:** [Plunge](https://plunge.com/) — bright DTC wellness shell (sticky top nav, cyan accents, coral CTAs, rounded product cards, trust strip, dark footer). Caldera catalog, copy, and logo remain original.
 
 - Repo: https://github.com/arcmonay/caldera
 - Live: https://caldera-seven.vercel.app
@@ -19,13 +19,8 @@ Until Shopify credentials are connected, the site runs on the local catalog and 
 ## Shopify setup
 
 1. Create a Shopify store.
-2. **Products → Import** and upload `data/shopify-products.csv` (images pull from GitHub raw URLs after push).
+2. **Products → Import** and upload `data/shopify-products.csv`.
 3. Create a Storefront API token.
-4. Copy `.env.example` → `.env.local` and fill:
-
-```env
-SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-SHOPIFY_STOREFRONT_TOKEN=...
-```
+4. Copy `.env.example` → `.env.local` and fill `SHOPIFY_STORE_DOMAIN` / `SHOPIFY_STOREFRONT_TOKEN`.
 
 © 2025 Caldera

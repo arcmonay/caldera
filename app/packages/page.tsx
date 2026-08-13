@@ -9,13 +9,13 @@ export const metadata = { title: "Wellness packages" };
 export default function PackagesPage() {
   return (
     <section className="section">
-      <p className="kicker">Journey · 05</p>
-      <h1 className="display text-4xl mt-2">Whole-room packages</h1>
+      <p className="kicker">Packages</p>
+      <h1 className="display text-4xl mt-2">Recovery room packages</h1>
       <p className="lede mt-3 mb-10">
-        Four compositions we stock: recovery, athlete, spa-at-home, and longevity. Prices are the sum
-        of the listed machines. Freight and installation are quoted.
+        Four compositions we stock. Prices are the sum of the listed machines. Freight and
+        installation are quoted separately.
       </p>
-      <div className="ledges">
+      <div className="ledges" style={{ gridTemplateColumns: "1fr 1fr" }}>
         {packages.map((pack) => {
           const first = getProduct(pack.productHandles[0]);
           return (
@@ -37,11 +37,11 @@ export default function PackagesPage() {
         })}
       </div>
       <div className="cta-row mt-10">
-        <Link href="/compare" className="btn btn-ghost">
-          Back to compare
+        <Link href="/shop" className="btn btn-cta">
+          Shop à la carte
         </Link>
-        <Link href="/shop" className="btn btn-ember">
-          Build à la carte
+        <Link href="/compare" className="btn btn-ghost">
+          Compare models
         </Link>
       </div>
     </section>

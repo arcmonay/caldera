@@ -35,14 +35,14 @@ export default async function ShopPage({ searchParams }: Props) {
         <ShopFilters collections={getCollections()} />
       </Suspense>
       <div className="section" style={{ paddingTop: "1.5rem" }}>
-        <p className="kicker">Journey · 01</p>
-        <h1 className="display text-4xl mb-2">Mineral catalog</h1>
+        <p className="kicker">Shop</p>
+        <h1 className="display text-4xl mb-2">All equipment</h1>
         <p className="lede mb-8">
-          {products.length} pieces. Each listing uses a catalog photo of that unit. Next: choose a{" "}
-          <Link href="/goals" style={{ color: "var(--ember-hot)" }}>
-            goal
+          {products.length} pieces. Need help choosing?{" "}
+          <Link href="/goals" style={{ color: "var(--cold-deep)", fontWeight: 600 }}>
+            Find your setup
           </Link>
-          , then compare.
+          .
         </p>
         <ProductGrid products={products} />
       </div>

@@ -3,8 +3,8 @@ import Image from "next/image";
 import { getCollection, getProductsByCollection } from "@/lib/products";
 
 export const metadata = {
-  title: "Goals",
-  description: "Choose a wellness goal — then find the Caldera equipment that fits the room.",
+  title: "Find your setup",
+  description: "Answer what you want from the room — then shop matching Caldera equipment.",
 };
 
 const goals = [
@@ -61,11 +61,11 @@ const goals = [
 export default function GoalsPage() {
   return (
     <section className="section">
-      <p className="kicker">Journey · 02</p>
-      <h1 className="display text-5xl mt-2">Start with a goal</h1>
+      <p className="kicker">Which setup is right for you?</p>
+      <h1 className="display text-5xl mt-2">Find your Caldera setup</h1>
       <p className="lede mt-4 mb-10">
-        Caldera’s path is Shop → Goals → Equipment → Compare → Packages. Pick what the room should
-        do — then move to machines, not marketing claims.
+        Pick a goal — then move to equipment, compare models, and package a room. No medical claims;
+        just clear product matching.
       </p>
 
       <div className="goals">
@@ -85,15 +85,22 @@ export default function GoalsPage() {
                 alt=""
                 width={320}
                 height={200}
-                style={{ width: "100%", height: "5.5rem", objectFit: "contain", mixBlendMode: "screen", marginBottom: "0.8rem" }}
+                style={{
+                  width: "100%",
+                  height: "5.5rem",
+                  objectFit: "contain",
+                  marginBottom: "0.8rem",
+                  background: "var(--bg-soft)",
+                  borderRadius: 10,
+                }}
               />
               <em className="kicker" style={{ fontStyle: "normal" }}>
                 {title || "Equipment"}
               </em>
               <strong>{goal.title}</strong>
               <p>{goal.dek}</p>
-              <p className="mt-3 text-sm" style={{ color: "var(--ember-hot)" }}>
-                {count} pieces in catalog →
+              <p className="mt-3 text-sm" style={{ color: "var(--cold-deep)", fontWeight: 600 }}>
+                {count} pieces →
               </p>
             </Link>
           );
@@ -101,14 +108,11 @@ export default function GoalsPage() {
       </div>
 
       <div className="cta-row mt-12">
-        <Link href="/shop" className="btn btn-ember">
+        <Link href="/shop" className="btn btn-cta">
           Browse all equipment
         </Link>
         <Link href="/compare" className="btn btn-ghost">
-          Compare next
-        </Link>
-        <Link href="/packages" className="btn btn-ghost">
-          Skip to packages
+          Compare models
         </Link>
       </div>
     </section>

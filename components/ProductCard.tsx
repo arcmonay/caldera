@@ -7,15 +7,13 @@ import type { Product } from "@/lib/types";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Link href={`/shop/${product.handle}`} className="stratum">
+    <Link href={`/shop/${product.handle}`} className="card">
       <QuickAdd product={product} />
-      <div className="stratum-visual">
-        <ProductVisual product={product} />
-      </div>
-      <div className="stratum-body">
-        <p className="kicker">{product.equipmentType}</p>
-        <p className="stratum-name">{product.title.replace("Caldera ", "")}</p>
-        <p className="stratum-desc">{product.highlight}</p>
+      <ProductVisual product={product} />
+      <div className="card-body">
+        <span className="badge">{product.equipmentType}</span>
+        <p className="card-name">{product.title.replace("Caldera ", "")}</p>
+        <p className="card-desc">{product.highlight}</p>
         <div className="ticket">
           {product.quoteOnly ? (
             <strong>Request a quote</strong>
@@ -37,7 +35,7 @@ export function ProductCard({ product }: { product: Product }) {
 
 export function ProductGrid({ products }: { products: Product[] }) {
   return (
-    <div className="strata">
+    <div className="product-grid">
       {products.map((p) => (
         <ProductCard key={p.id} product={p} />
       ))}
