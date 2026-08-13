@@ -46,10 +46,10 @@ export function CartView() {
         Secure checkout. Freight calculated after address. High-ticket items may be invoiced. Flexible payment options available — lender terms are placeholders until a provider is connected.
       </p>
       <div className="cta-row">
-        <Link href="/checkout" className="btn btn-ink">
+        <Link href="/checkout" className="btn btn-obsidian">
           Continue to checkout
         </Link>
-        <Link href="/quote" className="btn btn-metal">
+        <Link href="/quote" className="btn btn-ember">
           Request an invoice
         </Link>
         <Link href="/financing" className="btn btn-ghost">

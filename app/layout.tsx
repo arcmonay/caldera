@@ -1,43 +1,46 @@
 import type { Metadata } from "next";
-import { Newsreader, Outfit } from "next/font/google";
+import { Barlow, Cormorant } from "next/font/google";
 import { CompareBar } from "@/components/CompareBar";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { HotSpringDock } from "@/components/HotSpringDock";
 import { CartProvider } from "@/lib/cart-context";
 import { CompareProvider } from "@/lib/compare-context";
 import "./globals.css";
 
-const display = Newsreader({
-  variable: "--font-newsreader",
+const display = Cormorant({
+  variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
 });
 
-const sans = Outfit({
-  variable: "--font-outfit",
+const sans = Barlow({
+  variable: "--font-barlow",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Caldera — Premium Wellness Equipment",
+    default: "Caldera — Mineral Wellness Equipment",
     template: "%s · Caldera",
   },
   description:
-    "Premium equipment for recovery, relaxation, performance and everyday well-being. Cold plunges, saunas, massage chairs, red light, and commercial wellness rooms.",
+    "Volcanic spa retreat equipment for the home — cold plunges, saunas, massage, red light, and recovery rooms. Shop by goal, compare, package.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} h-full`}>
-      <body className="sanctuary antialiased">
+      <body className="retreat antialiased">
+        <div className="crater-mark" aria-hidden="true" />
         <CartProvider>
           <CompareProvider>
             <Header />
             <main>{children}</main>
-            <CompareBar />
             <Footer />
+            <CompareBar />
+            <HotSpringDock />
           </CompareProvider>
         </CartProvider>
       </body>

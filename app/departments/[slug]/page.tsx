@@ -24,7 +24,7 @@ export default async function DepartmentPage({
 
   return (
     <section className="section">
-      <p className="kicker">Room {collection.bay}</p>
+      <p className="kicker">Journey · 03 · Spring {collection.bay}</p>
       <h1 className="display text-4xl mt-2">{collection.title}</h1>
       <p className="lede mt-3 mb-10">{collection.description}</p>
       <ProductGrid products={products} />

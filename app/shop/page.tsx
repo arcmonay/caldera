@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { ProductGrid } from "@/components/ProductCard";
 import { ShopFilters } from "@/components/ShopFilters";
 import { getCollections, getProducts } from "@/lib/products";
@@ -34,10 +35,14 @@ export default async function ShopPage({ searchParams }: Props) {
         <ShopFilters collections={getCollections()} />
       </Suspense>
       <div className="section" style={{ paddingTop: "1.5rem" }}>
-        <p className="kicker">Showroom</p>
-        <h1 className="display text-4xl mb-2">Wellness equipment</h1>
+        <p className="kicker">Journey · 01</p>
+        <h1 className="display text-4xl mb-2">Mineral catalog</h1>
         <p className="lede mb-8">
-          {products.length} pieces. Each listing uses a catalog photo of that unit. Brand names on factory shots are the OEM marks on the chassis — not invented Caldera certifications.
+          {products.length} pieces. Each listing uses a catalog photo of that unit. Next: choose a{" "}
+          <Link href="/goals" style={{ color: "var(--ember-hot)" }}>
+            goal
+          </Link>
+          , then compare.
         </p>
         <ProductGrid products={products} />
       </div>

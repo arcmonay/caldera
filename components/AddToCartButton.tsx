@@ -12,14 +12,14 @@ export function AddToCartButton({ product }: { product: Product }) {
   if (product.quoteOnly) {
     return (
       <div className="cta-row">
-        <Link href={`/quote?machine=${product.handle}`} className="btn btn-metal">
+        <Link href={`/quote?machine=${product.handle}`} className="btn btn-ember">
           Request a quote
         </Link>
         <Link href="/support" className="btn btn-ghost">
-          Talk to a wellness equipment specialist
+          Talk to a specialist
         </Link>
         <Link href="/financing" className="btn btn-ghost">
-          Apply for financing
+          Payment options
         </Link>
         <button type="button" className="btn btn-ghost" onClick={() => toggle(product.handle)}>
           {has(product.handle) ? "Added to compare" : "Compare"}
@@ -30,19 +30,19 @@ export function AddToCartButton({ product }: { product: Product }) {
 
   return (
     <div className="cta-row">
-      <button type="button" className="btn btn-ink" onClick={() => addItem(product.handle)}>
+      <button type="button" className="btn btn-obsidian" onClick={() => addItem(product.handle)}>
         Add to cart
       </button>
       {product.price >= 1500 ? (
         <>
-          <Link href={`/quote?machine=${product.handle}`} className="btn btn-metal">
+          <Link href={`/quote?machine=${product.handle}`} className="btn btn-ember">
             Request a quote
           </Link>
           <Link href="/support" className="btn btn-ghost">
             Talk to a specialist
           </Link>
           <Link href="/financing" className="btn btn-ghost">
-            Apply for financing
+            Payment options
           </Link>
         </>
       ) : (

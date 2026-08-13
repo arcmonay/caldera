@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { ProductGrid } from "@/components/ProductCard";
 import { ProductVisual } from "@/components/ProductVisual";
+import { packages } from "@/data/content";
 import { financeDisclaimer, monthlyLabel } from "@/lib/finance";
 import {
   formatMoney,
@@ -36,76 +37,111 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
   const accessories = getProducts()
     .filter((p) => p.id !== product.id && p.price < 1000)
     .slice(0, 4);
+  const relatedPackages = packages.filter((pack) =>
+    pack.productHandles.includes(product.handle),
+  );
 
   return (
     <>
-      <article className="pdp">
-        <div className="pdp-gallery">
+      <article className="sanctuary-pdp">
+        <div className="pdp-stage">
           <ProductVisual product={product} priority />
         </div>
-        <div className="spec-rail">
-          <p className="kicker">
-            {collection ? (
-              <Link href={`/departments/${collection.handle}`}>{collection.title}</Link>
-            ) : (
-              "Caldera"
-            )}
-          </p>
-          <h1>{product.title.replace("Caldera ", "")}</h1>
-          <p className="lede mt-3">{product.description}</p>
-          {product.quoteOnly ? (
-            <p className="mt-4 text-xl font-medium">Quote on request</p>
-          ) : (
-            <p className="mt-4">
-              <span className="text-2xl">{formatMoney(product.price)}</span>
-              {product.financing ? (
-                <span className="block mt-1 text-[var(--wood)]">{monthlyLabel(product.monthly)}</span>
-              ) : null}
+
+        <div className="pdp-story">
+          <div className="pdp-narrative">
+            <p className="kicker">
+              {collection ? (
+                <Link href={`/departments/${collection.handle}`}>{collection.title}</Link>
+              ) : (
+                "Caldera"
+              )}
             </p>
-          )}
-          <p className="mt-2 text-sm text-[var(--muted)]">
-            {product.inStock ? "In stock" : "Built to order"} · {product.leadTime}
-          </p>
-          <p className="mt-1 text-sm text-[var(--muted)]">Flexible payment options available.</p>
-          <AddToCartButton product={product} />
-          <ul className="spec-list">
-            {[
-              ["SKU", product.sku],
-              ["Type", product.equipmentType],
-              ["Use", product.useCase === "professional" ? "Commercial" : product.useCase === "home" ? "Home" : "Home & commercial"],
-              ["Power", product.power],
-              ["Dimensions", product.dimensions],
-              ["Weight", `${product.weightLbs} lb`],
-              ["Warranty", `${product.warrantyYears} year limited`],
-              ["Financing", product.financing ? "Available, subject to approval" : "—"],
-              ["Shipping", product.shipping],
-            ].map(([label, value]) => (
-              <li key={label}>
-                <span>{label}</span>
-                <strong>{value}</strong>
-              </li>
-            ))}
-          </ul>
-          <p className="text-[0.75rem] text-[var(--muted)] mt-4">{financeDisclaimer()}</p>
+            <h1>{product.title.replace("Caldera ", "")}</h1>
+            <p className="lede">{product.description}</p>
+            <p className="lede mt-4" style={{ color: "var(--mist)" }}>
+              {product.highlight}. Specified for a private wellness sanctuary — heat, cold, and recovery
+              routines without medical claims.
+            </p>
+            <ul className="spec-list">
+              {[
+                ["SKU", product.sku],
+                ["Type", product.equipmentType],
+                [
+                  "Use",
+                  product.useCase === "professional"
+                    ? "Commercial"
+                    : product.useCase === "home"
+                      ? "Home"
+                      : "Home & commercial",
+                ],
+                ["Power", product.power],
+                ["Dimensions", product.dimensions],
+                ["Weight", `${product.weightLbs} lb`],
+                ["Warranty", `${product.warrantyYears} year limited`],
+                ["Shipping", product.shipping],
+              ].map(([label, value]) => (
+                <li key={label}>
+                  <span>{label}</span>
+                  <strong>{value}</strong>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="pdp-buy">
+            {product.quoteOnly ? (
+              <p className="price">Quote on request</p>
+            ) : (
+              <p className="price">{formatMoney(product.price)}</p>
+            )}
+            {product.financing && !product.quoteOnly ? (
+              <p className="quiet-finance">{monthlyLabel(product.monthly)} — illustrative only</p>
+            ) : (
+              <p className="quiet-finance">Flexible payment options available.</p>
+            )}
+            <p className="mt-3 text-sm" style={{ color: "var(--stone)" }}>
+              {product.inStock ? "In stock" : "Built to order"} · {product.leadTime}
+            </p>
+            <AddToCartButton product={product} />
+            <p className="text-[0.75rem] mt-4" style={{ color: "var(--stone)" }}>
+              {financeDisclaimer()}
+            </p>
+          </div>
         </div>
       </article>
+
+      {relatedPackages.length ? (
+        <div className="cross-sell">
+          <p className="kicker mb-3">Often packaged with</p>
+          <div className="cross-sell-panel">
+            {relatedPackages.map((pack) => (
+              <Link key={pack.slug} href={`/packages/${pack.slug}`}>
+                <p className="kicker">{pack.audience}</p>
+                <p className="card-name mt-1">{pack.title}</p>
+                <p className="card-desc">{pack.summary}</p>
+                <div className="ticket">
+                  <strong>{formatMoney(pack.price)}</strong>
+                  <span>{monthlyLabel(pack.monthly)} · illustrative</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <div className="prose-block">
         <h2>Is this right for me?</h2>
         <p>
-          This {product.equipmentType.toLowerCase()} is designed for {product.intendedUsers.join(", ").toLowerCase()}. Typical rooms: {product.businessTypes.join(", ")}. It is specified for wellness and recovery routines — not as a medical device.
+          This {product.equipmentType.toLowerCase()} is designed for{" "}
+          {product.intendedUsers.join(", ").toLowerCase()}. Typical rooms:{" "}
+          {product.businessTypes.join(", ")}. It is specified for wellness and recovery routines —
+          not as a medical device.
         </p>
         <h2>Overview</h2>
         <p>
           {product.description} {product.highlight}.
         </p>
-        <h2>Specifications</h2>
-        <ul>
-          <li>Power: {product.power}</li>
-          <li>Dimensions: {product.dimensions}</li>
-          <li>Weight: {product.weightLbs} lb</li>
-          <li>Warranty: {product.warrantyYears}-year limited on chassis and electronics</li>
-        </ul>
         <h2>What’s included</h2>
         <ul>
           {product.included.map((item) => (

@@ -1,8 +1,11 @@
 # Caldera
 
-Premium wellness equipment house — cold plunges, saunas, massage chairs, red light, recovery, and commercial rooms. Next.js + Shopify-ready catalog.
+Mineral wellness equipment house — volcanic spa retreat identity for cold plunges, saunas, massage, red light, and recovery rooms.
+
+**Obsidian Spring** shell: magazine mast hero, crater monogram watermark, hot-spring dock journey (Shop → Goals → Equipment → Compare → Packages).
 
 - Repo: https://github.com/arcmonay/caldera
+- Live: https://caldera-seven.vercel.app
 
 ## Catalog scripts
 

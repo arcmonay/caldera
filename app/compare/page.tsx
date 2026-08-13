@@ -74,7 +74,7 @@ export default function ComparePage() {
         <p className="lede mt-3">
           Add up to three units from any product page. Side-by-side specs for high-ticket wellness equipment.
         </p>
-        <Link href="/shop" className="btn btn-metal mt-6 inline-flex">
+        <Link href="/shop" className="btn btn-ember mt-6 inline-flex">
           Shop equipment
         </Link>
       </section>
