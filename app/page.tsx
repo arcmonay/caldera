@@ -1,69 +1,136 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ProductGrid } from "@/components/ProductCard";
+import { packages } from "@/data/content";
+import { formatMoney, getCollections, getFeaturedProducts, getHighTicket } from "@/lib/products";
+import { monthlyLabel } from "@/lib/finance";
 
 export default function Home() {
+  const departments = getCollections();
+  const featured = getHighTicket(8);
+  const sellers = getFeaturedProducts(8);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <section className="hero">
+        <div className="hero-copy">
+          <p className="kicker">Wellness equipment house</p>
+          <h1>Build Your Personal Wellness Sanctuary.</h1>
+          <p>
+            Premium equipment for recovery, relaxation, performance and everyday well-being.
           </p>
+          <div className="cta-row">
+            <Link href="/shop" className="btn btn-metal">
+              Shop Wellness Equipment
+            </Link>
+            <Link href="/shop?sort=featured" className="btn btn-ghost light">
+              Explore Best Sellers
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="hero-visual">
+          <Image
+            src="/media/catalog/hero.webp"
+            alt="Zero-gravity massage chair in a wellness sanctuary"
+            width={1400}
+            height={1600}
+            priority
+          />
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="section">
+        <div className="section-head">
+          <div>
+            <p className="kicker">Collections</p>
+            <h2 className="display text-4xl">Featured categories</h2>
+          </div>
+        </div>
+        <div className="grid-4">
+          {[
+            { href: "/departments/cold-heat", title: "Cold Plunges", image: "/media/catalog/plunge.webp" },
+            { href: "/departments/saunas", title: "Saunas", image: "/media/catalog/sauna.webp" },
+            { href: "/departments/massage-recovery", title: "Massage Chairs", image: "/media/catalog/chair.webp" },
+            { href: "/departments/longevity", title: "Red Light Therapy", image: "/media/catalog/panel-desk.webp" },
+            { href: "/departments/massage-recovery", title: "Recovery", image: "/media/catalog/boots.webp" },
+            { href: "/departments/beauty-body", title: "Beauty & Body", image: "/media/catalog/hydra.webp" },
+            { href: "/commercial", title: "Commercial Wellness", image: "/media/catalog/presso.webp" },
+            { href: "/shop?sort=featured", title: "Best Sellers", image: "/media/catalog/chiller.webp" },
+          ].map((c) => (
+            <Link key={c.title} href={c.href} className="card">
+              <Image src={c.image} alt={c.title} width={800} height={600} className="visual" />
+              <div className="card-body">
+                <p className="card-name">{c.title}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <div className="bays">
+        {departments.map((d) => (
+          <Link key={d.handle} href={`/departments/${d.handle}`} className="bay">
+            <div>
+              <em>Collection {d.bay}</em>
+              <strong>{d.title}</strong>
+            </div>
+            <p className="card-desc">{d.description}</p>
+          </Link>
+        ))}
+      </div>
+
+      <section className="section">
+        <div className="section-head">
+          <div>
+            <p className="kicker">Trending</p>
+            <h2 className="display text-4xl">Featured equipment</h2>
+          </div>
+          <Link href="/shop" className="btn btn-ghost">
+            All equipment
+          </Link>
+        </div>
+        <ProductGrid products={featured} />
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="section-head">
+          <div>
+            <p className="kicker">Sanctuary favorites</p>
+            <h2 className="display text-4xl">Best sellers</h2>
+          </div>
+          <Link href="/financing" className="btn btn-ghost">
+            Flexible payment options
+          </Link>
+        </div>
+        <ProductGrid products={sellers} />
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="section-head">
+          <div>
+            <p className="kicker">Rooms</p>
+            <h2 className="display text-4xl">Build Your Wellness Room</h2>
+          </div>
+          <Link href="/business" className="btn btn-ghost">
+            All packages
+          </Link>
+        </div>
+        <div className="grid-4">
+          {packages.map((pack) => (
+            <Link key={pack.slug} href={`/business/${pack.slug}`} className="card">
+              <div className="card-body">
+                <p className="kicker">{pack.audience}</p>
+                <p className="card-name mt-2">{pack.title}</p>
+                <p className="card-desc">{pack.summary}</p>
+                <div className="ticket">
+                  <strong>{monthlyLabel(pack.monthly)}</strong>
+                  <span>{formatMoney(pack.price)} equipment invoice</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

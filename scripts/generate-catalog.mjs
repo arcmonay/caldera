@@ -1,0 +1,429 @@
+import { writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+const collections = [
+  {
+    handle: "cold-heat",
+    title: "Cold & Heat",
+    bay: "01",
+    description: "Acrylic plunges, portable ice baths, and chillers for contrast recovery at home or in a training room.",
+  },
+  {
+    handle: "saunas",
+    title: "Saunas",
+    bay: "02",
+    description: "Infrared cabins and blankets for heat sessions — specified as wellness equipment, not medical devices.",
+  },
+  {
+    handle: "massage-recovery",
+    title: "Massage & Recovery",
+    bay: "03",
+    description: "Zero-gravity chairs, percussion, compression boots, tables, and pressotherapy for daily recovery.",
+  },
+  {
+    handle: "longevity",
+    title: "Light & Longevity",
+    bay: "04",
+    description: "Red and near-infrared panels designed for recovery rooms and home sanctuaries.",
+  },
+  {
+    handle: "beauty-body",
+    title: "Beauty & Body",
+    bay: "05",
+    description: "Hydrodermabrasion towers and LED masks for facial rooms and at-home rituals.",
+  },
+  {
+    handle: "environment",
+    title: "Air & Environment",
+    bay: "06",
+    description: "Room filtration for the same spaces that hold plunges, saunas, and recovery chairs.",
+  },
+];
+
+function slug(value) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function monthly(price) {
+  return Math.max(19, Math.round(price / 36));
+}
+
+const products = [];
+let n = 1;
+
+function add(partial) {
+  const id = `ca-${String(n).padStart(3, "0")}`;
+  const sku = `CA-${String(n).padStart(4, "0")}`;
+  const handle = slug(`${partial.title}-${n}`);
+  const quoteOnly = partial.price >= 15000;
+  products.push({
+    id,
+    handle,
+    currency: "USD",
+    sku,
+    brand: "Caldera",
+    financing: partial.price >= 500,
+    quoteOnly,
+    inStock: true,
+    featured: partial.featured ?? true,
+    trending: partial.trending ?? n <= 8,
+    reviewsPlaceholder:
+      "Customer reviews will appear here once submitted. Caldera does not publish invented ratings or testimonials.",
+    monthly: monthly(partial.price),
+    warrantyYears: partial.warrantyYears ?? 2,
+    leadTime: quoteOnly ? "3–6 weeks, freight quoted" : "Ships in 5–12 business days",
+    installation: quoteOnly
+      ? "White-glove delivery and on-site setup available. Request a quote."
+      : "Ships with setup guide. Floor delivery on units over 80 lb. Dedicated 110V circuit recommended for plunges, saunas, and chillers.",
+    training: "Remote walkthrough included. On-site training available for facility packages.",
+    shipping: "Freight in the contiguous U.S. Liftgate on request. Alaska and Hawaii quoted.",
+    replacementParts: "Filters, garments, heads, and wear parts stocked for 7 years from purchase date.",
+    faqs: [
+      {
+        q: "Is this a medical device?",
+        a: "No. Caldera equipment is sold for wellness, recovery, and relaxation. It is not intended to diagnose, treat, cure, or prevent any disease.",
+      },
+      {
+        q: "Can I finance it?",
+        a: "Flexible payment options are available through third-party lenders, subject to credit approval. Monthly figures on this site are illustrations only.",
+      },
+      {
+        q: "What if a part fails?",
+        a: `This unit includes a ${partial.warrantyYears ?? 2}-year limited warranty on the chassis and electronics. Wear parts are sold separately.`,
+      },
+    ],
+    compareAtPrice: Math.round(partial.price * 1.06),
+    ...partial,
+  });
+  n += 1;
+}
+
+add({
+  title: "Caldera Alba Acrylic Cold Plunge",
+  description:
+    "A freestanding acrylic cold plunge with a white basin and charcoal cabinet. The listing photo is this unit: overhead of the interior plus the insulated exterior with the integrated vent.",
+  collection: "cold-heat",
+  price: 4890,
+  equipmentType: "Acrylic cold plunge",
+  treatmentTypes: ["Cold immersion", "Contrast recovery"],
+  businessTypes: ["Home sanctuary", "Training room", "Spa"],
+  useCase: "both",
+  highlight: "Insulated acrylic basin with integrated filtration housing",
+  dimensions: "67 × 31 × 28 in",
+  weightLbs: 210,
+  power: "110V / 15A dedicated",
+  applications: ["Post-training recovery", "Morning cold sessions", "Home contrast rooms"],
+  intendedUsers: ["Athletes", "Home wellness owners", "Recovery studios"],
+  benefits: ["Catalog photo matches this tub", "Designed for daily recovery", "Popular among athletes building a home plunge"],
+  included: ["Acrylic tub", "Insulated cover", "Filter starter", "Setup guide"],
+  tags: ["plunge", "ice bath", "cold", "acrylic"],
+  image: "/media/catalog/plunge.webp",
+});
+
+add({
+  title: "Caldera Field Inflatable Ice Bath",
+  description:
+    "A portable cylindrical ice bath with a rigid rim and drain valve. The listing photo is this black recovery tub on a white background — not a lifestyle collage.",
+  collection: "cold-heat",
+  price: 289,
+  equipmentType: "Portable ice bath",
+  treatmentTypes: ["Cold immersion"],
+  businessTypes: ["Home sanctuary", "Travel recovery"],
+  useCase: "home",
+  highlight: "Collapsible cylinder with drain valve for travel and small rooms",
+  dimensions: "32 × 32 × 30 in inflated",
+  weightLbs: 18,
+  power: "None — ice or pair with a chiller",
+  applications: ["Apartment recovery", "Travel kits", "Starter cold practice"],
+  intendedUsers: ["Home users", "Traveling athletes"],
+  benefits: ["Packs down after use", "Pairs with the 1HP chiller", "Supports relaxation after training"],
+  included: ["Tub", "Support poles", "Drain fitting", "Carry bag"],
+  tags: ["inflatable", "portable", "ice bath"],
+  image: "/media/catalog/inflatable.webp",
+  warrantyYears: 1,
+});
+
+add({
+  title: "Caldera 1HP Plunge Chiller",
+  description:
+    "A wheeled 1HP water chiller with inlet/outlet hoses and a digital temperature panel. The listing photo is this black unit on a deck — the machine that cools the bath, not a stock lifestyle scene.",
+  collection: "cold-heat",
+  price: 1890,
+  equipmentType: "Water chiller",
+  treatmentTypes: ["Cold immersion", "Temperature control"],
+  businessTypes: ["Home sanctuary", "Training room", "Gym"],
+  useCase: "both",
+  highlight: "1HP cooling with circulation pump and caster base",
+  dimensions: "22 × 16 × 20 in",
+  weightLbs: 92,
+  power: "110V / 12A",
+  applications: ["Inflatable tubs", "Acrylic plunges", "Shared recovery rooms"],
+  intendedUsers: ["Home owners", "Gym managers", "Coaches"],
+  benefits: ["Holds a set temperature without bags of ice", "Rolls to the tub", "Designed for recovery setups"],
+  included: ["Chiller", "Hose pair", "Quick connectors", "Filter cartridge"],
+  tags: ["chiller", "plunge", "cooling"],
+  image: "/media/catalog/chiller.webp",
+});
+
+add({
+  title: "Caldera Cedar Two-Person Infrared Sauna",
+  description:
+    "A two-person indoor far-infrared cabin in horizontal cedar with a full-height glass door and exterior control panel. The listing photo is this cabin.",
+  collection: "saunas",
+  price: 3290,
+  equipmentType: "Infrared sauna cabin",
+  treatmentTypes: ["Infrared heat", "Relaxation"],
+  businessTypes: ["Home sanctuary", "Spa", "Wellness clinic"],
+  useCase: "both",
+  highlight: "Two-person cedar cabin with carbon heaters and glass door",
+  dimensions: "47 × 47 × 75 in",
+  weightLbs: 286,
+  power: "220V / 1920W",
+  applications: ["Evening heat sessions", "Contrast with a plunge", "Home sanctuary rooms"],
+  intendedUsers: ["Home owners", "Spa directors"],
+  benefits: ["Supports relaxation", "Pairs with cold plunges for contrast", "Furniture-scale footprint"],
+  included: ["Cabin panels", "Bench", "Heater set", "Interior light", "Control panel"],
+  tags: ["sauna", "infrared", "cedar", "cabin"],
+  image: "/media/catalog/sauna.webp",
+});
+
+add({
+  title: "Caldera Ember Infrared Sauna Blanket",
+  description:
+    "A zippered far-infrared sauna blanket with a wired digital controller. The listing photo is this black wrap on a white background.",
+  collection: "saunas",
+  price: 249,
+  equipmentType: "Sauna blanket",
+  treatmentTypes: ["Infrared heat", "Relaxation"],
+  businessTypes: ["Home sanctuary", "Spa"],
+  useCase: "home",
+  highlight: "Portable infrared wrap with timer and temperature control",
+  dimensions: "71 × 71 in open",
+  weightLbs: 12,
+  power: "110V / 600W",
+  applications: ["Small apartments", "Travel heat sessions", "Spa add-on"],
+  intendedUsers: ["Home users", "Estheticians"],
+  benefits: ["Stores in a closet", "Supports relaxation", "No dedicated sauna room required"],
+  included: ["Blanket", "Controller", "Power cord", "Storage bag"],
+  tags: ["sauna blanket", "infrared", "portable"],
+  image: "/media/catalog/blanket.webp",
+  warrantyYears: 1,
+});
+
+add({
+  title: "Caldera Zero-G 4D Massage Chair",
+  description:
+    "A full-body zero-gravity massage chair with SL-track, side tablet, and champagne-metal shell. The listing photo is this chair on a white background.",
+  collection: "massage-recovery",
+  price: 6490,
+  equipmentType: "4D massage chair",
+  treatmentTypes: ["Full-body massage", "Zero gravity", "Recovery"],
+  businessTypes: ["Home sanctuary", "Spa lobby", "Office"],
+  useCase: "both",
+  highlight: "4D rollers, airbags, and a docked control tablet",
+  dimensions: "56 × 30 × 48 in upright",
+  weightLbs: 231,
+  power: "110V / 90W",
+  applications: ["Evening recovery", "Lobby seating", "Home sanctuary"],
+  intendedUsers: ["Home owners", "Spa managers", "Office wellness"],
+  benefits: ["Designed for recovery and relaxation", "Commercial-looking shell for a waiting room", "Serviceable track"],
+  included: ["Chair", "Tablet remote", "Power cord", "Setup guide"],
+  tags: ["massage chair", "zero gravity", "4d"],
+  image: "/media/catalog/chair.webp",
+});
+
+add({
+  title: "Caldera Percussion Recovery Gun",
+  description:
+    "A handheld percussion massager with a spherical head and brushless motor housing. The listing photo is this black fascia gun.",
+  collection: "massage-recovery",
+  price: 129,
+  equipmentType: "Percussion massager",
+  treatmentTypes: ["Percussion", "Muscle recovery"],
+  businessTypes: ["Home sanctuary", "Training room"],
+  useCase: "both",
+  highlight: "Quiet-drive percussion with interchangeable heads",
+  dimensions: "10 × 7 × 3 in",
+  weightLbs: 2,
+  power: "Rechargeable lithium pack",
+  applications: ["Pre-session warm-up", "Post-training", "Travel kits"],
+  intendedUsers: ["Athletes", "Home users", "Therapists"],
+  benefits: ["Popular among athletes", "Fits a kit bag", "Designed for recovery, not diagnosis"],
+  included: ["Gun", "Head set", "Charge cable", "Case"],
+  tags: ["percussion", "massage gun", "recovery"],
+  image: "/media/catalog/gun.webp",
+  warrantyYears: 1,
+});
+
+add({
+  title: "Caldera Sequential Compression Boots",
+  description:
+    "A four-to-multi chamber sequential compression system with a digital pump and zippered leg garments. The listing photo is this pump, boots, and cases.",
+  collection: "massage-recovery",
+  price: 890,
+  equipmentType: "Compression boots",
+  treatmentTypes: ["Sequential compression", "Recovery"],
+  businessTypes: ["Home sanctuary", "Training room", "Spa"],
+  useCase: "both",
+  highlight: "Sequential chambers with a portable pump and carry cases",
+  dimensions: "Pump 10 × 8 × 5 in; boots to mid-thigh",
+  weightLbs: 14,
+  power: "110V / 30W",
+  applications: ["Post-run recovery", "Heavy-leg days", "Studio add-on"],
+  intendedUsers: ["Athletes", "Home users", "Recovery studios"],
+  benefits: ["Designed for recovery", "Garments zip on without a table", "Pump travels in the included case"],
+  included: ["Pump", "Boot pair", "Hose set", "Carry cases"],
+  tags: ["compression", "boots", "recovery"],
+  image: "/media/catalog/boots.webp",
+});
+
+add({
+  title: "Caldera Studio Portable Massage Table",
+  description:
+    "A two-section portable massage table in black upholstery with a beech frame, shown open and folded. The listing photo is this table.",
+  collection: "massage-recovery",
+  price: 319,
+  equipmentType: "Massage table",
+  treatmentTypes: ["Manual massage", "Bodywork"],
+  businessTypes: ["Home sanctuary", "Mobile therapist", "Spa"],
+  useCase: "both",
+  highlight: "Folds to a latching case with handle",
+  dimensions: "73 × 28 in open; 37 × 28 × 7 in folded",
+  weightLbs: 34,
+  power: "None",
+  applications: ["Home bodywork", "Mobile visits", "Spa overflow rooms"],
+  intendedUsers: ["Massage therapists", "Home users"],
+  benefits: ["Wood frame with cable braces", "Height knobs on each leg", "Stores upright"],
+  included: ["Table", "Face cradle", "Carry handle"],
+  tags: ["table", "massage", "portable"],
+  image: "/media/catalog/table.webp",
+  warrantyYears: 1,
+});
+
+add({
+  title: "Caldera Linea Pressotherapy Console",
+  description:
+    "A commercial pressotherapy pump with multi-chamber compression boots. The listing photo is this white console, hose manifold, and garments.",
+  collection: "massage-recovery",
+  price: 4890,
+  equipmentType: "Pressotherapy console",
+  treatmentTypes: ["Pressotherapy", "Sequential compression"],
+  businessTypes: ["Spa", "Wellness clinic", "Recovery studio"],
+  useCase: "professional",
+  highlight: "Independent chamber pressure on a commercial compressor",
+  dimensions: "32 × 22 × 48 in",
+  weightLbs: 86,
+  power: "110V / 8A",
+  applications: ["Spa drainage menus", "Athlete recovery rooms", "Wellness clinics"],
+  intendedUsers: ["Spa directors", "Lymphatic therapists", "Recovery studios"],
+  benefits: ["Repeatable chamber maps", "Replaceable garments", "Quiet commercial compressor"],
+  included: ["Console", "Boot pair", "Hose manifold", "Protocol card"],
+  tags: ["pressotherapy", "lymphatic", "boots"],
+  image: "/media/catalog/presso.webp",
+});
+
+add({
+  title: "Caldera Spectrum Red Light Panel",
+  description:
+    "A vertical red and near-infrared LED panel with a side touchscreen for timer, red/NIR intensity, and pulse. The listing photo is this white panel with the controller close-ups.",
+  collection: "longevity",
+  price: 1290,
+  equipmentType: "Red light panel",
+  treatmentTypes: ["Red light", "Near infrared"],
+  businessTypes: ["Home sanctuary", "Recovery studio", "Spa"],
+  useCase: "both",
+  highlight: "Band-separated red and NIR control on a standing panel",
+  dimensions: "36 × 12 × 3 in",
+  weightLbs: 22,
+  power: "110V / 300W class",
+  applications: ["Recovery rooms", "Evening wind-down", "Spa add-on bays"],
+  intendedUsers: ["Home owners", "Athletes", "Spa directors"],
+  benefits: ["Designed for recovery and relaxation", "Independent red and NIR channels", "Timer on the chassis"],
+  included: ["Panel", "Power cable", "Hanging kit", "Remote"],
+  tags: ["red light", "nir", "panel"],
+  image: "/media/catalog/panel.webp",
+});
+
+add({
+  title: "Caldera Atelier Hydrodermabrasion Tower",
+  description:
+    "A tabletop hydrodermabrasion platform with a touchscreen and docked facial handpieces. The listing photo is this M6-style tower — the machine, not a client portrait.",
+  collection: "beauty-body",
+  price: 4680,
+  equipmentType: "Hydrodermabrasion tower",
+  treatmentTypes: ["Hydrodermabrasion", "Facial infusion"],
+  businessTypes: ["Spa", "Esthetician practice", "Med spa"],
+  useCase: "professional",
+  highlight: "Vortex plus infusion with multiple facial handpieces",
+  dimensions: "22 × 18 × 16 in",
+  weightLbs: 28,
+  power: "110V / 8A",
+  applications: ["Chair-time facials", "Infusion menus", "Esthetician suites"],
+  intendedUsers: ["Estheticians", "Spa directors"],
+  benefits: ["Closed-loop vacuum", "Tip kit included", "Daily-duty compressor"],
+  included: ["Console", "Handpiece set", "Tip kit", "Protocol card"],
+  tags: ["hydra", "facial", "hydrodermabrasion"],
+  image: "/media/catalog/hydra.webp",
+});
+
+add({
+  title: "Caldera Lumen LED Facial Mask",
+  description:
+    "A seven-color LED facial mask offered in white, blue, and rose-gold shells. The listing photo is these three masks with the retail carton.",
+  collection: "beauty-body",
+  price: 189,
+  equipmentType: "LED facial mask",
+  treatmentTypes: ["LED", "Facial"],
+  businessTypes: ["Home sanctuary", "Spa"],
+  useCase: "home",
+  highlight: "Multi-color LED face mask with USB power",
+  dimensions: "10 × 8 × 4 in",
+  weightLbs: 1,
+  power: "USB 5V",
+  applications: ["At-home facial rituals", "Spa retail", "Post-facial add-on"],
+  intendedUsers: ["Home users", "Estheticians"],
+  benefits: ["Supports a relaxation ritual", "Lightweight shell", "No treatment bed required"],
+  included: ["Mask", "Controller", "USB cable", "Manual"],
+  tags: ["led", "mask", "facial"],
+  image: "/media/catalog/mask.webp",
+  warrantyYears: 1,
+});
+
+add({
+  title: "Caldera Hearth HEPA Air Purifier",
+  description:
+    "A cylindrical room purifier with a top touch ring and wraparound intake. The listing photo is this white tower on a white background.",
+  collection: "environment",
+  price: 429,
+  equipmentType: "HEPA air purifier",
+  treatmentTypes: ["Air filtration"],
+  businessTypes: ["Home sanctuary", "Spa", "Office"],
+  useCase: "both",
+  highlight: "HEPA tower with auto mode and filter-life reminder",
+  dimensions: "12 × 12 × 24 in",
+  weightLbs: 14,
+  power: "110V / 45W",
+  applications: ["Plunge rooms", "Sauna anterooms", "Bedrooms"],
+  intendedUsers: ["Home owners", "Spa managers"],
+  benefits: ["Quiet sleep mode", "Fits the same rooms as heat and cold equipment", "Replacement filters stocked"],
+  included: ["Purifier", "HEPA filter", "Power cord"],
+  tags: ["air", "hepa", "purifier"],
+  image: "/media/catalog/purifier.webp",
+  warrantyYears: 1,
+});
+
+const catalog = {
+  brand: "Caldera",
+  generatedAt: new Date().toISOString(),
+  collections,
+  products,
+};
+
+writeFileSync(join(root, "data", "catalog.json"), JSON.stringify(catalog, null, 2));
+console.log(`Wrote ${products.length} Caldera products.`);
