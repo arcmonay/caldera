@@ -1,6 +1,6 @@
 # Caldera
 
-Premium wellness equipment house for home sanctuaries and commercial recovery floors. Next.js + Shopify-ready catalog.
+Premium wellness equipment house — cold plunges, saunas, massage chairs, red light, recovery, and commercial rooms. Next.js + Shopify-ready catalog.
 
 - Repo: https://github.com/arcmonay/caldera
 

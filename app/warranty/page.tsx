@@ -8,10 +8,10 @@ export default function WarrantyPage() {
       <p className="kicker">Trust</p>
       <h1 className="display text-4xl mt-2">Warranty</h1>
       <p className="lede mt-3">
-        Most Caldera machines carry a one- or two-year limited warranty on chassis and electronics. Wear parts — filters, garments, heads, blankets, and hoses — are sold separately and stocked for seven years from the purchase date.
+        Most Caldera equipment carries a one- to three-year limited warranty on chassis and electronics, as listed on the product page. Wear parts — filters, garments, heads, hoses — are sold separately and stocked for seven years from the purchase date (placeholder until inventory is live).
       </p>
       <p className="mt-6 leading-7">
-        Warranty does not cover misuse, unlicensed clinical use, or water damage from poor drainage. Register the serial number with support after delivery. For freight damage, photograph the crate before signing.
+        Warranty does not cover misuse, water damage, or unlicensed electrical work. Register the serial with support after delivery. For freight damage, photograph the crate before signing.
       </p>
       <Link href="/support" className="btn btn-metal mt-8 inline-flex">
         Contact support

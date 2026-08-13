@@ -6,7 +6,7 @@ export default function TermsPage() {
       <p className="kicker">Legal</p>
       <h1 className="display text-4xl mt-2">Terms</h1>
       <p className="lede mt-3">
-        Equipment is sold for wellness and recovery use. Caldera does not provide medical advice. Prices, lead times, and inventory are placeholders until Shopify and a warehouse are connected. Financing is offered by third parties, subject to their terms. © 2025 Caldera. This page is a placeholder until legal review.
+        By ordering, you agree that Caldera sells wellness equipment, not medical devices, and that installation, electrical, and plumbing are your responsibility unless quoted. Financing is provided by third parties when connected. These terms are a placeholder until counsel reviews a full agreement. © 2025 Caldera.
       </p>
     </section>
   );

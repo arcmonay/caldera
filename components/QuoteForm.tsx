@@ -4,15 +4,11 @@ import { FormEvent, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getProducts } from "@/lib/products-client";
 
-export function QuoteForm({
-  intent = "quote",
-}: {
-  intent?: "quote" | "facility";
-}) {
+export function QuoteForm({ commercial = false }: { commercial?: boolean }) {
   const params = useSearchParams();
   const preset = params.get("machine") ?? "";
   const [sent, setSent] = useState(false);
-  const machines = getProducts();
+  const machines = getProducts().filter((p) => p.price >= 400);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,7 +18,7 @@ export function QuoteForm({
   if (sent) {
     return (
       <p className="lede">
-        Request filed. A specialist will reply with availability, freight, and payment-option next steps. This is not an approval, a medical consult, or a confirmed inventory hold.
+        Request received. A wellness equipment specialist will reply with availability, freight, and financing options. This is not an approval, a quote of record, or a medical consultation.
       </p>
     );
   }
@@ -33,17 +29,10 @@ export function QuoteForm({
         Name
         <input name="name" required autoComplete="name" />
       </label>
-      {intent === "facility" ? (
-        <label>
-          Facility
-          <input name="facility" placeholder="Gym, spa, recovery studio, hotel" />
-        </label>
-      ) : (
-        <label>
-          Room or business
-          <input name="business" placeholder="Home sanctuary, spa, gym" />
-        </label>
-      )}
+      <label>
+        {commercial ? "Facility" : "Household or business"}
+        <input name="business" placeholder={commercial ? "Gym, hotel, spa, clinic…" : "Home, studio, spa"} />
+      </label>
       <label>
         Email
         <input name="email" type="email" required autoComplete="email" />
@@ -52,6 +41,21 @@ export function QuoteForm({
         Phone
         <input name="phone" type="tel" autoComplete="tel" />
       </label>
+      {commercial ? (
+        <label>
+          Facility type
+          <select name="facility">
+            <option value="">Select</option>
+            <option>Gym</option>
+            <option>Hotel</option>
+            <option>Spa</option>
+            <option>Clinic</option>
+            <option>Wellness center</option>
+            <option>Salon</option>
+            <option>Apartment / corporate</option>
+          </select>
+        </label>
+      ) : null}
       <label>
         Equipment
         <select name="machine" defaultValue={preset}>
@@ -65,17 +69,10 @@ export function QuoteForm({
       </label>
       <label>
         Notes
-        <textarea
-          name="notes"
-          placeholder={
-            intent === "facility"
-              ? "Member volume, voltage, install date, number of stations…"
-              : "Room size, voltage, opening date…"
-          }
-        />
+        <textarea name="notes" placeholder="Room size, voltage, delivery window, bulk quantity…" />
       </label>
       <button type="submit" className="btn btn-ink justify-self-start">
-        {intent === "facility" ? "Request a facility plan" : "Request a quote"}
+        {commercial ? "Outfit your facility" : "Request a quote"}
       </button>
     </form>
   );

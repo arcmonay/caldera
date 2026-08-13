@@ -10,10 +10,9 @@ export function ProductVisual({
   priority?: boolean;
   className?: string;
 }) {
-  const src = product.image || "/media/catalog/plunge.webp";
   return (
     <Image
-      src={src}
+      src={product.image}
       alt={product.title}
       width={1200}
       height={900}

@@ -3,27 +3,27 @@ export const metadata = { title: "FAQ" };
 const faqs = [
   {
     q: "Do you sell to homes and businesses?",
-    a: "Yes. Listings are marked home, facility, or both. Plunges, saunas, and chairs often live in both. Hydrodermabrasion is specified for professional rooms.",
+    a: "Yes. Each product lists home, commercial, or both. Commercial floors should use the quote form for freight and installation.",
   },
   {
-    q: "Is this medical equipment?",
-    a: "No. Caldera sells wellness and recovery equipment. It is not intended to diagnose, treat, cure, or prevent any disease. We do not claim detox, weight loss, or reversed aging.",
-  },
-  {
-    q: "Can I finance a plunge or massage chair?",
-    a: "You can apply. Monthly figures on the site are illustrations. Lenders decide. We do not guarantee approval or advertise rates.",
+    q: "Can I finance a massage chair or plunge?",
+    a: "You can apply once a lender is connected. Monthly figures are 36-month illustrations. We do not guarantee approval.",
   },
   {
     q: "Do you install?",
-    a: "White-glove is available on packages and heavy pieces. Smaller units ship with a setup guide. Dedicated circuits for plunges, saunas, and chillers are your electrician’s work.",
+    a: "White-glove is quoted on large pieces and packages. Smaller units ship with a setup guide. Electrical and plumbing are licensed trades you hire.",
   },
   {
-    q: "Are the photos of the actual units?",
-    a: "Yes. Each listing uses a manufacturer catalog shot of that machine. We reduced the assortment rather than rotate unrelated lifestyle photos.",
+    q: "Is checkout secure?",
+    a: "Yes. Card data is handled by the payment processor. High-ticket orders are often invoiced after a specialist confirms freight.",
   },
   {
-    q: "Is checkout live?",
-    a: "The cart is live in the browser. Card checkout connects when Shopify credentials are set. Until then, high-ticket orders go through a quote.",
+    q: "Are these medical devices?",
+    a: "No. Caldera equipment is sold for wellness, recovery, and relaxation. It is not intended to diagnose, treat, cure, or prevent any disease.",
+  },
+  {
+    q: "Can I get trade or bulk pricing?",
+    a: "Ask on the commercial form if you operate more than one room or are opening a chain. Discounts are quoted, not listed as invented percentages.",
   },
 ];
 

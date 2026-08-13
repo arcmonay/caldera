@@ -4,53 +4,47 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 
-const equipment = [
-  { href: "/departments/cold-heat", label: "Cold & heat" },
+const shop = [
+  { href: "/departments/cold-heat", label: "Cold Therapy" },
   { href: "/departments/saunas", label: "Saunas" },
-  { href: "/departments/massage-recovery", label: "Massage & recovery" },
-  { href: "/departments/longevity", label: "Light & longevity" },
-  { href: "/departments/beauty-body", label: "Beauty & body" },
-  { href: "/departments/environment", label: "Air & environment" },
+  { href: "/departments/massage-recovery", label: "Massage & Recovery" },
+  { href: "/departments/longevity", label: "Red Light" },
+  { href: "/departments/beauty-body", label: "Beauty & Body" },
+  { href: "/shop?q=table", label: "Fitness" },
+  { href: "/departments/environment", label: "Water & Air" },
+  { href: "/commercial", label: "Commercial" },
 ];
 
-const shop = [
-  { href: "/shop", label: "All equipment" },
-  { href: "/shop?sort=featured", label: "Best sellers" },
+const explore = [
+  { href: "/shop?sort=featured", label: "Best Sellers" },
+  { href: "/shop", label: "New Arrivals" },
   { href: "/shop?sort=trending", label: "Trending" },
-  { href: "/shop?sort=new", label: "New arrivals" },
-  { href: "/business", label: "Wellness packages" },
+  { href: "/packages", label: "Wellness Packages" },
   { href: "/shop?max=1000", label: "Under $1,000" },
   { href: "/shop?min=1000&max=5000", label: "$1,000–$5,000" },
   { href: "/shop?min=5000&max=10000", label: "$5,000–$10,000" },
   { href: "/shop?min=10000", label: "$10,000+" },
 ];
 
-const rooms = [
-  { href: "/business", label: "Build your wellness room" },
-  { href: "/business/recovery-room", label: "Recovery Room" },
-  { href: "/business/the-athlete", label: "The Athlete" },
-  { href: "/business/spa-at-home", label: "Spa at Home" },
-  { href: "/business/longevity-suite", label: "Longevity Suite" },
-  { href: "/financing", label: "Financing" },
-  { href: "/quote", label: "Request a quote" },
-];
-
 const commercial = [
-  { href: "/commercial", label: "Outfit your facility" },
-  { href: "/commercial", label: "Gyms" },
-  { href: "/commercial", label: "Spas" },
-  { href: "/commercial", label: "Hotels" },
-  { href: "/commercial", label: "Clinics" },
-  { href: "/commercial", label: "Wellness centers" },
+  { href: "/commercial", label: "Outfit Your Facility" },
+  { href: "/commercial#gyms", label: "Gyms" },
+  { href: "/commercial#spas", label: "Spas" },
+  { href: "/commercial#hotels", label: "Hotels" },
+  { href: "/commercial#clinics", label: "Clinics" },
+  { href: "/commercial#centers", label: "Wellness Centers" },
+  { href: "/quote", label: "Request a quote" },
+  { href: "/financing", label: "Financing" },
 ];
 
 const resources = [
-  { href: "/guides", label: "Buying guides" },
+  { href: "/guides", label: "Buying Guides" },
+  { href: "/compare", label: "Product Comparisons" },
+  { href: "/guides", label: "Wellness Guides" },
+  { href: "/faq", label: "FAQs" },
   { href: "/warranty", label: "Warranty" },
-  { href: "/support", label: "Specialist" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/compare", label: "Compare" },
-  { href: "/contact", label: "Contact" },
+  { href: "/shipping", label: "Shipping" },
+  { href: "/support", label: "Support" },
 ];
 
 function Menu({
@@ -79,31 +73,30 @@ export function Header() {
   const { count } = useCart();
 
   return (
-    <header className="plaque">
-      <div className="plaque-top">
-        <nav className="plaque-side">
+    <header className="mast">
+      <div className="mast-top">
+        <nav className="mast-side">
           <Link href="/financing">Financing</Link>
-          <Link href="/quote">Quote</Link>
+          <Link href="/commercial">Commercial</Link>
           <Link href="/guides">Guides</Link>
         </nav>
         <Link href="/" className="wordmark">
           <strong>Caldera</strong>
           <span>Wellness equipment</span>
         </Link>
-        <nav className="plaque-side right">
+        <nav className="mast-side right">
           <Link href="/shop">Shop</Link>
           <Link href="/support">Specialist</Link>
           <Link href="/cart">Cart{count ? ` ${count}` : ""}</Link>
         </nav>
       </div>
-      <nav className="mega" aria-label="Collections">
-        <Menu label="Shop" items={equipment} />
-        <Menu label="Explore" items={shop} />
-        <Menu label="Rooms" items={rooms} />
+      <nav className="mega" aria-label="Store">
+        <Menu label="Shop" items={shop} />
+        <Menu label="Explore" items={explore} />
         <Menu label="Commercial" items={commercial} />
         <Menu label="Resources" items={resources} />
         <Link href="/shop" className={pathname.startsWith("/shop") ? "is-active" : ""}>
-          Shop wellness equipment
+          Shop Wellness Equipment
         </Link>
       </nav>
     </header>

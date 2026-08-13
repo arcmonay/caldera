@@ -1,26 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import type { Product } from "@/lib/types";
 import { useCart } from "@/lib/cart-context";
 
-export function QuickAdd({ handle }: { handle: string }) {
+export function QuickAdd({ product }: { product: Product }) {
   const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
+  if (product.quoteOnly) return null;
 
   return (
     <button
       type="button"
-      className="btn btn-ink"
-      style={{ width: "100%", marginTop: "0.6rem" }}
+      className="quick-add"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        addItem(handle);
-        setAdded(true);
-        setTimeout(() => setAdded(false), 1400);
+        addItem(product.handle);
       }}
     >
-      {added ? "Added" : "Quick add"}
+      Quick add
     </button>
   );
 }

@@ -7,15 +7,17 @@ export default function GuidesPage() {
   return (
     <section className="section">
       <p className="kicker">Resources</p>
-      <h1 className="display text-4xl mt-2">Buying guides</h1>
+      <h1 className="display text-4xl mt-2">Buying and wellness guides</h1>
       <p className="lede mt-3 mb-10">
-        Research before you finance. Written for people speccing a first sanctuary or a recovery floor — not for medical advice.
+        Spec a plunge, a sauna, or a first recovery room before you finance. Written without medical claims.
       </p>
       <div className="grid-4">
         {guides.map((g) => (
           <Link key={g.slug} href={`/guides/${g.slug}`} className="card">
             <div className="card-body">
-              <p className="kicker">{g.category} · {g.readMinutes} min</p>
+              <p className="kicker">
+                {g.category} · {g.readMinutes} min
+              </p>
               <p className="card-name mt-2">{g.title}</p>
               <p className="card-desc">{g.dek}</p>
             </div>

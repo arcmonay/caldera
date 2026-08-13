@@ -33,6 +33,9 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
   const related = getProductsByCollection(product.collection)
     .filter((p) => p.id !== product.id)
     .slice(0, 4);
+  const accessories = getProducts()
+    .filter((p) => p.id !== product.id && p.price < 1000)
+    .slice(0, 4);
 
   return (
     <>
@@ -61,19 +64,21 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
             </p>
           )}
           <p className="mt-2 text-sm text-[var(--muted)]">
-            {product.inStock ? "Availability confirmed at checkout" : "Built to order"} · {product.leadTime}
+            {product.inStock ? "In stock" : "Built to order"} · {product.leadTime}
           </p>
+          <p className="mt-1 text-sm text-[var(--muted)]">Flexible payment options available.</p>
           <AddToCartButton product={product} />
           <ul className="spec-list">
             {[
               ["SKU", product.sku],
               ["Type", product.equipmentType],
-              ["Use", product.useCase === "both" ? "Home & facility" : product.useCase],
+              ["Use", product.useCase === "professional" ? "Commercial" : product.useCase === "home" ? "Home" : "Home & commercial"],
               ["Power", product.power],
               ["Dimensions", product.dimensions],
               ["Weight", `${product.weightLbs} lb`],
-              ["Warranty", product.warrantyYears ? `${product.warrantyYears} year limited` : "Wear part"],
+              ["Warranty", `${product.warrantyYears} year limited`],
               ["Financing", product.financing ? "Available, subject to approval" : "—"],
+              ["Shipping", product.shipping],
             ].map(([label, value]) => (
               <li key={label}>
                 <span>{label}</span>
@@ -86,30 +91,20 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
       </article>
 
       <div className="prose-block">
-        <h2>Overview</h2>
-        <p>{product.description} {product.highlight}.</p>
         <h2>Is this right for me?</h2>
         <p>
-          This piece is specified for {product.useCase === "professional" ? "facility floors" : product.useCase === "home" ? "home sanctuaries" : "home sanctuaries and commercial rooms"}.
-          It is designed for recovery and relaxation. It is not a medical device and is not intended to diagnose, treat, cure, or prevent any disease.
+          This {product.equipmentType.toLowerCase()} is designed for {product.intendedUsers.join(", ").toLowerCase()}. Typical rooms: {product.businessTypes.join(", ")}. It is specified for wellness and recovery routines — not as a medical device.
         </p>
-        <h2>Applications</h2>
+        <h2>Overview</h2>
+        <p>
+          {product.description} {product.highlight}.
+        </p>
+        <h2>Specifications</h2>
         <ul>
-          {product.applications.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <h2>Intended users</h2>
-        <ul>
-          {product.intendedUsers.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <h2>Why people choose it</h2>
-        <ul>
-          {product.benefits.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
+          <li>Power: {product.power}</li>
+          <li>Dimensions: {product.dimensions}</li>
+          <li>Weight: {product.weightLbs} lb</li>
+          <li>Warranty: {product.warrantyYears}-year limited on chassis and electronics</li>
         </ul>
         <h2>What’s included</h2>
         <ul>
@@ -119,16 +114,12 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
         </ul>
         <h2>Installation</h2>
         <p>{product.installation}</p>
-        <h2>Training</h2>
-        <p>{product.training}</p>
         <h2>Shipping</h2>
         <p>{product.shipping}</p>
         <h2>Replacement parts</h2>
         <p>{product.replacementParts}</p>
-        <h2>Reviews</h2>
-        <p className="note">
-          Reviews will appear here once customers can leave them. Caldera does not publish invented testimonials, star ratings, or awards.
-        </p>
+        <h2>Customer reviews</h2>
+        <p>{product.reviewsPlaceholder}</p>
         <h2>FAQ</h2>
         {product.faqs.map((f) => (
           <p key={f.q}>
@@ -139,10 +130,19 @@ export default async function ProductPage({ params }: PageProps<"/shop/[handle]"
         ))}
       </div>
 
-      {related.length ? (
+      {accessories.length ? (
         <section className="section">
           <div className="section-head">
-            <h2 className="display text-3xl">Also in this collection</h2>
+            <h2 className="display text-3xl">Recommended accessories</h2>
+          </div>
+          <ProductGrid products={accessories} />
+        </section>
+      ) : null}
+
+      {related.length ? (
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="section-head">
+            <h2 className="display text-3xl">Related equipment</h2>
           </div>
           <ProductGrid products={related} />
         </section>

@@ -14,14 +14,19 @@ export default async function ShopPage({ searchParams }: Props) {
   const q = typeof sp.q === "string" ? sp.q : "";
   const useCase = typeof sp.use === "string" ? sp.use : "all";
   const max = typeof sp.max === "string" ? Number(sp.max) : undefined;
-  const products = filterProducts(getProducts(), {
+  const min = typeof sp.min === "string" ? Number(sp.min) : undefined;
+  let products = filterProducts(getProducts(), {
     collection,
     q,
     useCase,
     inStock: sp.stock === "1",
     financing: sp.finance === "1",
     maxPrice: max,
+    minPrice: min,
   });
+  if (sp.sort === "trending") {
+    products = [...products].sort((a, b) => Number(b.trending) - Number(a.trending));
+  }
 
   return (
     <div className="shop-layout">
@@ -29,10 +34,10 @@ export default async function ShopPage({ searchParams }: Props) {
         <ShopFilters collections={getCollections()} />
       </Suspense>
       <div className="section" style={{ paddingTop: "1.5rem" }}>
-        <p className="kicker">Shop</p>
+        <p className="kicker">Showroom</p>
         <h1 className="display text-4xl mb-2">Wellness equipment</h1>
         <p className="lede mb-8">
-          {products.length} pieces. Each listing uses a catalog photo of that unit. Availability is confirmed at checkout.
+          {products.length} pieces. Each listing uses a catalog photo of that unit. Brand names on factory shots are the OEM marks on the chassis — not invented Caldera certifications.
         </p>
         <ProductGrid products={products} />
       </div>

@@ -10,7 +10,7 @@ export function CartView() {
   if (!items.length) {
     return (
       <p className="lede">
-        The cart is empty. <Link href="/shop">Shop wellness equipment</Link>
+        Your cart is empty. <Link href="/shop">Shop wellness equipment</Link>
       </p>
     );
   }
@@ -43,14 +43,17 @@ export function CartView() {
       </ul>
       <p className="mt-6 text-xl">Subtotal {formatMoney(subtotal)}</p>
       <p className="text-sm text-[var(--muted)] mt-2">
-        Checkout is a quote until Shopify is connected. Freight is calculated after address. High-ticket items may be invoiced.
+        Secure checkout. Freight calculated after address. High-ticket items may be invoiced. Flexible payment options available — lender terms are placeholders until a provider is connected.
       </p>
       <div className="cta-row">
+        <Link href="/checkout" className="btn btn-ink">
+          Continue to checkout
+        </Link>
         <Link href="/quote" className="btn btn-metal">
-          Checkout / request invoice
+          Request an invoice
         </Link>
         <Link href="/financing" className="btn btn-ghost">
-          Flexible payment options
+          See payment options
         </Link>
       </div>
     </div>

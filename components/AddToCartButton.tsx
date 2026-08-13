@@ -16,7 +16,10 @@ export function AddToCartButton({ product }: { product: Product }) {
           Request a quote
         </Link>
         <Link href="/support" className="btn btn-ghost">
-          Talk to a specialist
+          Talk to a wellness equipment specialist
+        </Link>
+        <Link href="/financing" className="btn btn-ghost">
+          Apply for financing
         </Link>
         <button type="button" className="btn btn-ghost" onClick={() => toggle(product.handle)}>
           {has(product.handle) ? "Added to compare" : "Compare"}
@@ -30,14 +33,23 @@ export function AddToCartButton({ product }: { product: Product }) {
       <button type="button" className="btn btn-ink" onClick={() => addItem(product.handle)}>
         Add to cart
       </button>
-      {product.financing ? (
-        <Link href="/financing" className="btn btn-metal">
+      {product.price >= 1500 ? (
+        <>
+          <Link href={`/quote?machine=${product.handle}`} className="btn btn-metal">
+            Request a quote
+          </Link>
+          <Link href="/support" className="btn btn-ghost">
+            Talk to a specialist
+          </Link>
+          <Link href="/financing" className="btn btn-ghost">
+            Apply for financing
+          </Link>
+        </>
+      ) : (
+        <Link href="/financing" className="btn btn-ghost">
           Flexible payment options
         </Link>
-      ) : null}
-      <Link href={`/quote?machine=${product.handle}`} className="btn btn-ghost">
-        Request a quote
-      </Link>
+      )}
       <button type="button" className="btn btn-ghost" onClick={() => toggle(product.handle)}>
         {has(product.handle) ? "Added to compare" : "Compare"}
       </button>

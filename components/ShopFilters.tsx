@@ -64,22 +64,21 @@ export function ShopFilters({ collections }: { collections: Collection[] }) {
         />
       </label>
       <label className="mt-4 block">
-        <span>Use</span>
+        <span>Home / Commercial</span>
         <select value={useCase} onChange={(e) => update({ use: e.target.value })}>
-          <option value="all">Home & facility</option>
-          <option value="professional">Facility / commercial</option>
-          <option value="home">Home sanctuary</option>
+          <option value="all">Home & commercial</option>
+          <option value="home">Home</option>
+          <option value="professional">Commercial</option>
         </select>
       </label>
       <label className="mt-4 block">
-        <span>Max price</span>
+        <span>Price</span>
         <select
           value={params.get("max") ?? ""}
-          onChange={(e) => update({ max: e.target.value })}
+          onChange={(e) => update({ max: e.target.value, min: "" })}
         >
           <option value="">Any</option>
-          <option value="500">Under $500</option>
-          <option value="2000">Under $2,000</option>
+          <option value="1000">Under $1,000</option>
           <option value="5000">Under $5,000</option>
           <option value="10000">Under $10,000</option>
         </select>
@@ -89,7 +88,7 @@ export function ShopFilters({ collections }: { collections: Collection[] }) {
         className={params.get("stock") ? "is-active mt-3" : "mt-3"}
         onClick={() => update({ stock: params.get("stock") ? "" : "1" })}
       >
-        In stock
+        Availability — in stock
       </button>
       <button
         type="button"

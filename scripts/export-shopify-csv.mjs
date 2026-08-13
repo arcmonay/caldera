@@ -37,7 +37,7 @@ const header = [
 const rows = catalog.products.map((p) => {
   const imagePath = p.image || `/media/catalog/${p.handle}.webp`;
   const collectionTitle =
-    catalog.collections.find((c) => c.handle === p.collection)?.title ?? "Equipment";
+    catalog.collections.find((c) => c.handle === p.collection)?.title ?? "Wellness";
   const body = [
     `<p>${p.description}</p>`,
     "<ul>",

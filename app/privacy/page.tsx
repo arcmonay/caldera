@@ -6,7 +6,7 @@ export default function PrivacyPage() {
       <p className="kicker">Legal</p>
       <h1 className="display text-4xl mt-2">Privacy</h1>
       <p className="lede mt-3">
-        Quote forms collect name, email, phone, and room notes so a specialist can reply. We do not sell that list. Payment data, when checkout is live, will be handled by the processor — not stored in this app. This page is a placeholder until counsel reviews it.
+        Quote forms and checkout collect name, email, phone, and facility details to fulfill an order or inquiry. We do not sell personal information. Payment data is handled by the processor, not stored on this site. This notice is a placeholder until counsel reviews a full policy.
       </p>
     </section>
   );

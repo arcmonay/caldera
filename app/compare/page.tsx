@@ -23,11 +23,24 @@ const rows: { key: string; label: string; value: (h: string) => string }[] = [
   },
   {
     key: "type",
-    label: "Use types",
-    value: (h) => getProduct(h)?.treatmentTypes.join(", ") ?? "—",
+    label: "Type",
+    value: (h) => getProduct(h)?.equipmentType ?? "—",
   },
-  { key: "power", label: "Power", value: (h) => getProduct(h)?.power ?? "—" },
-  { key: "dim", label: "Dimensions", value: (h) => getProduct(h)?.dimensions ?? "—" },
+  {
+    key: "use",
+    label: "Home / commercial",
+    value: (h) => getProduct(h)?.useCase ?? "—",
+  },
+  {
+    key: "power",
+    label: "Power",
+    value: (h) => getProduct(h)?.power ?? "—",
+  },
+  {
+    key: "dim",
+    label: "Dimensions",
+    value: (h) => getProduct(h)?.dimensions ?? "—",
+  },
   {
     key: "weight",
     label: "Weight",
@@ -41,10 +54,9 @@ const rows: { key: string; label: string; value: (h: string) => string }[] = [
     label: "Warranty",
     value: (h) => {
       const p = getProduct(h);
-      return p ? `${p.warrantyYears} year` : "—";
+      return p ? `${p.warrantyYears} year limited` : "—";
     },
   },
-  { key: "use", label: "Setting", value: (h) => getProduct(h)?.useCase ?? "—" },
   {
     key: "fin",
     label: "Financing",
@@ -60,10 +72,10 @@ export default function ComparePage() {
       <section className="section">
         <h1 className="display text-4xl">Compare equipment</h1>
         <p className="lede mt-3">
-          Add up to three units from any product page — plunges, saunas, chairs, panels.
+          Add up to three units from any product page. Side-by-side specs for high-ticket wellness equipment.
         </p>
         <Link href="/shop" className="btn btn-metal mt-6 inline-flex">
-          Shop wellness equipment
+          Shop equipment
         </Link>
       </section>
     );
